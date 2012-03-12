@@ -1,0 +1,11 @@
+{% extends "_sidebar.html" %}
+{% load sidebar %}
+{% block sideboxes %}
+    {% sidebox 'All Associates' %}
+    <ul class="contacts">
+    {% for associate in associates %}
+        <li><a href="{% url associates.views.show associate.slug %}">{{ associate.name }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endsidebox %}
+{% endblock %}

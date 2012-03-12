@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Jay Zawrotny | Web Designer &amp; Web Developer{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.jbox.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/popcorn.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/home.js"></script>
+<meta type="description" content="Jay Zawrotny is an experienced Web Designer &amp; Developer. He has worked on many projects in many cutting-edge web programming languages." />
+<meta type="keywords" content="web, web design, design, programming, web programming, ruby on rails, php, django, python, javascript, blog" />
+{% endblock %}
+{% block page-header %}{% endblock %}
+{% block content %}
+<div id="content" class="home">
+    <div class="grid960">
+        <div class="col-12 spc-2">
+            <section>
+                <hgroup id="banner">
+                    <h1 id="name">Jay Zawrotny</h1>
+                    <h2>Web Designer &amp; Developer</h2>
+                </hgroup>
+                <blockquote id="home-quote">
+                    Been designing &amp; developing sites for so long, this design actually came to me in a dream. No joke!
+                </blockquote>
+            </section>
+            <section class="featured-projects">
+                <ul>
+                    {% for project in featured_projects %}
+                    <li>
+                        <div>
+                            <h3><a href="{% url projects.views.show project.slug %}">{{ project.title }}</a></h3>
+                            <a href="{% url projects.views.show project.slug %}"><img src="{% thumbnail project.image 204x150 crop='smart' %}" alt="{{ project.title }}" /></a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <nav>
+                <ul>
+                    <li><a href="#connect">Connect</a></li>
+                    <li><a href="#who-is-jay-zawrotny">Who am I?</a></li>
+                    <li><a href="#latest-works">Latest Works</a></li>
+                </ul>
+            </nav>
+            {% include '_social_media.html' %}
+        </div>
+    </div>
+</div>
+<div id="home-footer">
+    <div class="grid960">
+        <div class="group">
+            <section class="col-9">
+                <video id="intro-video" poster="{{ STATIC_URL }}images/video_placeholder.png" controls>
+                    <source src="{{ MEDIA_URL }}videos/blog_welcome.mp4" type="video/mp4" />
+                    <source src="{{ MEDIA_URL }}videos/blog_welcome.webm" type="video/webm" />
+                    <source src="{{ MEDIA_URL }}videos/blog_welcome.ogv" type="video/ogg" />
+                </video>
+            </section>
+            <div class="col-7">
+                {% include "_home_who_is.html" %}
+            </div>
+        </div>
+        <div class="group latest-work" id="latest-works">
+            <section class="latest-projects projects col-6">
+                <header><h5>Latest Projects</h5></header>
+                <ul>
+                    {% for project in projects %}
+                    <li>
+                    <a href="{% url projects.views.show project.slug %}"><img src="{% thumbnail project.image 90x90 crop='smart' %}" alt="{{ project.title }}" /></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="latest-posts col-6">
+                <header><h5>Recent Blog Entries</h5></header>
+                <ul>
+                {% for article in articles %}
+                    <li><a href="{% url blog.views.show article.slug %}">{{ article.title }}</a><div class="excerpt">{{ article.get_excerpt }}</div></li>
+                {% endfor %}
+                </ul>
+            </section>
+            <section class="new-dribbble col-4">
+                <header><h5>Newest Dribbble Shot</h5></header>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

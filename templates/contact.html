@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Contact Jay Zawrotny{% endblock %}
+{% block page-title %}
+<h1>Contact Jay</h1>
+<h2>Say hello, ask a question, or consult for a job :)</h2>
+{% endblock %}
+{% block content %}
+<section class="col-11">
+    {{ content.contact|safe }}
+    <form action="{% url oneoffs.views.contact %}" class="contact-form" method="post">{% csrf_token %}
+        <ul>
+        {% for field in form %}
+        <li class="field-wrapper">
+            {{ field.errors }}
+            {% if field.html_name != "cc_myself" %}
+                <span class="form-label">{{ field.label_tag }}:</span>
+                <p>{{ field }}</p>
+            {% else %}
+                <p>
+                <span class="form-label cc-myself">{{ field.label_tag }}:</span>
+                {{ field }}
+                </p>
+            {% endif %}
+        </li>
+        {% endfor %}
+        <li class="human">
+            If you're human, leave this box unchecked.
+            <input type="checkbox" name="is_a_bot" />
+        </li>
+        <li>
+            <input type="submit" value="Send Message" />
+        </li>
+        </ul>
+    </form>
+</section>
+{% include "contact/_sidebar.html" %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load blog_extras %}
+{% load thumbnail %}
+{% with photo=article|get_photo %}
+    {% if photo %}
+    <div class="post-photo">
+        <a href="{{ photo.file.url }}"><img src="{% thumbnail photo.file 620x2000 crop=False %}" alt="{{ photo.title }}" /></a>
+        <em class="caption">{{ photo.content }}</em>
+    </div>
+    {% endif %}
+{% endwith %}
+{{ content }}

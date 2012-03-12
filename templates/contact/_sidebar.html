@@ -1,0 +1,7 @@
+{% extends "_sidebar.html" %}
+{% load sidebar %}
+{% block sideboxes %}
+    {% sidebox "Connect" "contacts" %}
+        {{ content.media|safe }}
+    {% endsidebox %}
+{% endblock %}

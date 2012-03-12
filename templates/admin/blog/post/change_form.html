@@ -1,0 +1,29 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% block content %}
+{{ block.super }}
+<script type="text/javascript">//<![CDATA[
+    (function($){
+        $('<input type="submit" class="default" value="{% trans 'Publish Article' %}" name="_publish" />').prependTo('div.submit-row');
+         $(document).ready(function(){
+            // Replace default_name checkboxes with radio buttons.
+            $(".form-row.featured input").each(function(){
+                var name = $(this).attr('name'); // grab name of original
+                var id = $(this).attr('id'); // grab id of original
+                if ($(this).attr('checked')) { // grab checked value of original
+                    var checked = ' checked="checked"';
+                } else {
+                    var checked = '';
+                }
+                /* create new visible input */
+                var html = '<input type="radio" name="'+name+'" id="'+id+'" value="True"'+checked+' />';
+                $(this).after(html).remove(); // add new, then remove original input
+            });
+            // Ensure only one default_name radio button can be checked at a time.
+            $(".form-row.featured input").click(function(){
+                $(".form-row.featured input").not(this).removeAttr("checked");
+            });
+        });
+    })(django.jQuery);
+//]]></script>
+{% endblock %}

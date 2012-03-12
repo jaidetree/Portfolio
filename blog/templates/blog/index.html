@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load blog_extras %}
+{% block title %}The Blog | Jay Zawrotny{% endblock %}
+{% block page-title %}
+{% if category %}<h1>{{ category.title }}</h1><h2>({{ category.posts.count }}) Articles in category {{ category.title }}</h2>{% else %}<h1>The Blog</h1><h2>Tutorials, Personal Thoughts, Industry Insight</h2>{% endif %}                                                              
+{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.jbox.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/blog.js"></script>
+{% endblock %}
+{% block body_class %}blog{% endblock %}
+{% block content %}
+    <div class="col-11 blog">
+        <ul class="posts">
+        {% for article in articles.object_list %}
+            <li>
+            <article class="post {{ article.type }}">
+                <header>
+                <h3 class="title"><a href="{% url blog.views.show article.slug %}">{{ article.title }}</a></h3>
+                    {% include "blog/_date.html" %}
+                </header>
+                <section class="content">
+                {% with template_name=article.type|templatename:'blog' %}
+                    {% if template_name %}
+                        {% include template_name with content=article.get_html|safe meta=article.meta_content %}
+                    {% else %}
+                        {{ article.get_html|safe }}
+                    {% endif %}
+                {% endwith %}
+                </section>
+                <footer class="share">
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style" addthis:url="{{ request.get_host}}{{ article.get_absolute_url  }}" addthis:title="{{ article.title }}">
+                        <a class="addthis_button_preferred_1"></a>
+                        <a class="addthis_button_preferred_2"></a>
+                        <a class="addthis_button_preferred_3"></a>
+                        <a class="addthis_button_preferred_4"></a>
+                        <a class="addthis_button_compact"></a>
+                        <a class="addthis_counter addthis_bubble_style"></a>
+                    </div>
+                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4ecaea1e7ae42106"></script>
+                    <!-- AddThis Button END -->
+                </footer>
+            </article>
+            </li>
+        {% empty %}
+        <li>There are currently no blog articles to display.</li>
+        {% endfor %}
+        </ul>
+        <nav>
+            {% if articles.has_next %}
+                <a href="?page={{ articles.next_page_number }}" class="prev">&#9668; Older Entries</a>
+            {% else %}
+                <span class="prev">Older Entries</span>
+            {% endif %}
+            {% if articles.has_previous %}
+                <a href="?page={{ articles.previous_page_number }}" class="next">Newer Entries &#9658;</a>
+            {% else %}
+                <span class="next">Newer Entries</span>
+            {% endif %}
+            {% if articles.paginator.num_pages > 1 %}
+                <ul>
+                {% for page in articles.paginator.page_range %}
+                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </nav>
+    </div>
+    {% include "blog/_sidebar.html" with view="index" %}
+{% endblock %}

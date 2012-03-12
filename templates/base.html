@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{% block title %}Jay Zawrotny | Web Designer &amp; Developer{% endblock %}</title>
+        <meta charset="UTF-8" />
+        <link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/style.css" />
+        <script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}javascript/functions.js"></script>
+        <!--[if gt IE 8]>
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/ie9.css" />
+        <![endif]-->
+        {% block head %}{% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        <nav id="top">
+            <div class="container grid960">
+                <header class="col-4">
+                    <div id="logo"><a href="/">Jay Zawrotny</a></div>
+                </header>
+                <ul class="col-12">
+                    <li><a href="{% url oneoffs.views.home %}">Home</a></li>
+                    <li><a href="{% url projects.views.index %}">Work</a></li>
+                    <li><a href="{% url oneoffs.views.about %}">About</a></li>
+                    <li><a href="{% url blog.views.index %}">Blog</a></li>
+                    <li><a href="{% url oneoffs.views.contact %}">Contact</a></li>
+                    <li><a href="{% url associates.views.index %}">Associates</a></li>
+                </ul>
+            </div>
+        </nav>
+        {% block page-header %}
+        <section id="l-page-header">
+            <div class="grid960">
+                <header class="col-16">
+                    <hgroup>
+                    {% block page-title %}{% endblock %}
+                    </hgroup>
+                </header>
+            </div>
+        </section>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#l-page-header hgroup').animate({ 'left': '0%', 'opacity': 1.0 }, 600, 'swing');
+            });
+        </script>
+        {% endblock %}
+        {% if not is_home %}
+        <div class="grid960 l-main">
+        {% endif %}
+            {% block content %}{% endblock %}
+        {% if not is_home %}
+        </div>
+        {% endif %}
+        <footer></footer>
+    </body>
+</html>

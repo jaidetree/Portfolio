@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ associate.name }} | Associates | Jay Zawrotny's Portfolio{% endblock %}
+{% block page-title %}
+<h1>{{ associate.name }}</h1>
+<h2>{{ associate.specialty }}</h2>
+{% endblock %}
+{% block content %}
+<section class="associate-view col-10">
+    {% include "associates/_associate.html" %}
+</section>
+{% include "associates/_sidebar.html" %}
+{% endblock %}

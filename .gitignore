@@ -1,0 +1,4 @@
+settings.py
+*.pyc
+settings
+public

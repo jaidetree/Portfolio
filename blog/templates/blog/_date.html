@@ -1,0 +1,7 @@
+<em class="date">
+    Posted {{ article.date_published|timesince }} ago 
+    {% for category in article.categories.all %}
+    {% if forloop.first %}in{% endif %}
+    <a href="{% url blog.views.category category.slug %}">{{category.title}}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</em>

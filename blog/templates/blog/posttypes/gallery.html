@@ -1,0 +1,10 @@
+{% load blog_extras %}
+{% load thumbnail %}
+{% with photos=article.media.all %}
+    <ul class="post-gallery">
+    {% for photo in photos %}
+    <li><a href="{{ photo.file.url }}" title="{{ photo.title }}"><img src="{% thumbnail photo.file 180x180 crop='smart' %}" alt="{{ photo.title }}" /></a></li>
+    {% endfor %}
+    </ul>
+{% endwith %}
+{{ content }}

@@ -1,0 +1,18 @@
+{% load blog_extras %}
+{% with tweet=meta|get_tweet %}
+{% if tweet.text %}
+<div class="post-tweet">
+    <aside class="tweet-meta">
+        <img src="{{ tweet.user.profile_image_url }}" alt="{{ tweet.user.screen_name }}&rsquo;s Profile Photo" />
+        <a href="https://twitter.com/#!/{{ tweet.user.screen_name }}" class="author">@{{ tweet.user.screen_name }}</a>
+        <div class="tweet-data">
+            Tweeted <a href="https://twitter.com/#!/{{ tweet.user.screen_name }}/status/{{ tweet.id }}">{{ tweet.created_at }}</a>
+        </div>
+    </aside>
+    <div class="tweet-body">
+        <div class="tweet-content">{{ tweet.text|urlize }}</div>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+{{ content }}

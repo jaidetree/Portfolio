@@ -1,0 +1,54 @@
+{% extends "_sidebar.html" %}
+{% load sidebar %}
+{% block sideboxes %}
+    {% sidebox %}
+    <a href="{% url feed-blog %}" class="rss">Subscribe to the RSS Feed</a>
+    {% endsidebox %}
+    {% if view == "index" %}
+        {% sidebox "Categories" %}
+        <ul>
+            {% for category in categories %} 
+                <li><a href="{% url blog.views.category category.slug %}">{{ category.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endsidebox %}
+    {% endif %}
+    {% if article.related_articles.all %}
+        {% sidebox "Related Articles" %}
+        <ul>
+            {% for article in article.related_articles.all %}
+            <li><a href="{% url blog.views.show article.slug %}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endsidebox %}
+    {% endif %}
+    {% if popular_articles %}
+    {% sidebox "Popular Articles" %}
+    <ul>
+        {% for article in popular_articles %}
+            <li><a href="{% url blog.views.show article.slug %}">{{ article.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endsidebox %}
+    {% endif %}
+    {% if view == "show" %}
+        {% sidebox "Share" "share-box" %}
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+            <ul>
+                <li class="back-to-top"><a href="#top"><span class="backtop at300bs"></span>Back to top</a></li>
+                <li><a class="addthis_button_twitter">Tweet it</a></li>
+                <li><a class="addthis_button_facebook">Share on Facebook</a></li>
+                <li><a class="addthis_button_email">Email a Link</a></li>
+                <li><a class="addthis_button_tumblr">Tumble this</a></li>
+                <li><a class="addthis_button_wordpress">WordPress</a></li>
+                <li><a class="addthis_button_reddit">Share on Reddit</a></li>
+                <li class="gplus"><a class="addthis_button_google_plusone" g:plusone:size="medium" g:plusone:count="false" g:plusone:annotation="inline"></a></li>
+                <li><a class="addthis_button_compact">More</a></li>
+            </ul>
+        </div>
+        <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4d768c7a65875983"></script>
+        <!-- AddThis Button END -->
+        {% endsidebox %}
+    {% endif %}
+{% endblock %}

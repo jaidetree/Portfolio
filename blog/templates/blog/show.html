@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load blog_extras %}
+{% block title %}{{ article.title }} | Jay Zawrotny{% endblock %}
+{% block page-title %}
+<h1>{{ article.title }}</h1>
+<h2>{% include "blog/_date.html" %}</h2>
+{% endblock %}
+{% block body_class %}blog show{% endblock %}
+{% block content %}
+<div class="col-11">
+    <article class="post single {{ article.type }}">
+        <div class="content">
+        {% with template_name=article.type|templatename:'blog' %}
+            {% if template_name %}
+                {% include template_name with content=article.get_html|safe meta=article.meta_content %}
+            {% else %}
+                {{ article.get_html|safe }}
+            {% endif %}
+        {% endwith %}
+        </div>
+    </article>
+    <section class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'jayzawrotny'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+</div>
+{% include "blog/_sidebar.html" with view="show" %}
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var top_found_at = 0;
+        $(window).scroll(function(){
+            var share_box_top = $('.share-box').position().top;
+
+            if( $(window).scrollTop() > share_box_top + 200 )
+            {
+                $('.share-box').addClass( 'fixed' );
+                if( top_found_at == 0 )
+                {
+                    top_found_at = share_box_top;
+                }
+            }
+            if( $(window).scrollTop() < top_found_at * 2 + 20)
+            {
+                $('.share-box').removeClass( 'fixed' );
+                top_found_at = 0;
+            }
+        });
+        $('.share-box.fixed .addthis_button_compact').live('hover', function(){
+            $('#at15s').css('position', 'fixed');
+        });
+    });
+</script>
+{% endblock %}

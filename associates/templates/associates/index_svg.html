@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Associates | Jay Zawrotny{% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery-css-transform.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.rotate.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}javascript/associates.js"></script>
+{% endblock %}
+{% block page-title %}
+<h1>Associates</h1>
+<h2>Friends, collaborators, and trusted companies for your consumption</h2>
+{% endblock %}
+{% block content %}
+<h1>{{ meta }}</h1>
+<section class="associates span16">
+    <div class="contact-show">
+        <div class="container">
+            <div class="placeholder">
+                <h2>My Contacts</h2> 
+                <div class="content">
+                    It's 2011 at this time of writing. As such, I'm sure you realized by now that I'm not the only web designer/developer out there while I'd like to think my large skillset can cover a wide variety of your possible needs, perhaps I'm not the right person for the job. However, I do have friends that probably are. The people in this circle have my upmost trust &amp; respect and I know they <em>will</em> get your project done if I can not.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+                {% for person in featured_people %}
+                <pattern id="img{{ forloop.counter }}" patternUnits="objectBoundingBox" width="100" height="100" x="0" y="0"> 
+                    <image xlink:href="{% thumbnail person.avatar 150x150 crop='smart' %}" x="0" y="0" width="100" height="100"></image>
+                </pattern>
+                {% endfor %}
+            </defs>
+            <circle cx="50%" cy="50%" r="400" stroke="white" stroke-width="4" fill="rgba(0,0,0,0)" />
+            {% for person in featured_people %}
+            <a xlink:href="{% url associates.views.show person.slug %}" class="person-link"><circle class="person" cx="50%" cy="63" r="50" stroke="white" stroke-width="4" fill="url(#img{{ forloop.counter}})" /></a>
+            {% endfor %}
+        </svg>
+    </div>
+</section>
+{% endblock %}

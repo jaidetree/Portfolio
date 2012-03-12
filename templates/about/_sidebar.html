@@ -1,0 +1,50 @@
+{% extends "_sidebar.html" %}
+{% load sidebar %}
+{% block sideboxes %}
+
+    {% sidebox "" "profile-photo" %}
+        <img src="{{ MEDIA_URL }}{{ media.headshot }}" alt="Photo of Jay Zawrotny" />
+        One of nine times outside this year
+    {% endsidebox %}
+
+    {% sidebox "Design Philosophy" %}
+        {{ sections.values|safe }}
+    {% endsidebox %}
+
+    {% sidebox 'Avg. Weekly Liquids' %}
+    <img src="{{ STATIC_URL }}images/weekly_liquid_chart.png" alt="Weekly Liquids" />
+    {% endsidebox %}
+
+    {% sidebox "Latest Tweets" %}
+    <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script>
+    new TWTR.Widget({
+      version: 2,
+      type: 'search',
+      search: 'from:jayzawrotny #site',
+      interval: 30000,
+      title: 'JayZawrotny',
+      subject: 'Twitter Feed',
+      width: 'auto',
+      height: 'auto',
+      theme: {
+        shell: {
+          background: '#1c1c1c',
+          color: '#19f4cc'
+        },
+        tweets: {
+          background: '#1c1c1c',
+          color: '#cccccc',
+          links: '#19f4cc'
+        }
+      },
+      features: {
+        scrollbar: true,
+        loop: false,
+        live: true,
+        behavior: 'all'
+      }
+    }).render().start();
+    </script>
+    {% endsidebox %}
+{% endblock %}

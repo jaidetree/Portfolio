@@ -1,0 +1,28 @@
+{% load thumbnail %}
+{% load blog_extras %}
+{{ content }}
+{% if article.project %}
+<aside class="post-project">
+    {% if article.project.image %}
+    <a href="{% url projects.views.show article.project.slug %}" class="image"><img src="{% thumbnail article.project.image 100x100 crop='smart' %}" alt="{{ article.project.title }}" /></a>
+    {% endif %}
+    <div class="project-info">
+        <ul>
+            <li><h3 class="title">{{ article.project.title }}</h3></li>
+            {% if article.project.url %}
+            <li><span>URL:</span> {{ article.project.url|urlize }}</li>
+            {% endif %}
+            {% if article.project.date_launched %}
+            <li><span>Launched:</span> {{ article.project.date_launched|date:"F j, Y" }}</li>
+            {% endif %}
+            <li><span>Category:</span> {{ article.project.category.title }}</li>
+            {% if not article.project.complete %}
+            <li><span>Started:</span> {{ article.project.date_created|date:"F j, Y" }}</li>
+            {% endif %}
+        </ul>
+    </div>
+    {% if article.project.complete %}
+    <a href="{% url projects.views.show article.project.slug %}" class="view">&#9656;</a>
+    {% endif %}
+</aside>
+{% endif %}

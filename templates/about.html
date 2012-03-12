@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}About Jay Zawrotny{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/twitter.js"></script>
+{% endblock %}
+{% block page-title %}
+<h1>About</h1>
+<h2>History, Values, and a Bit About Me</h2>
+{% endblock %}
+{% block content %}
+<div class="about">
+    <div class="row group">
+        <aside class="profile-photo col-5">
+            <img src="{{ MEDIA_URL }}{{ media.headshot }}" alt="Photo of Jay Zawrotny" />
+            <p>One of nine times outside this year</p>
+            <h1 class="name">Jay Zawrotny</h1>
+            <div class="position">Web Designer<span>/</span>Developer</div>
+        </aside>
+        <aside class="design-philosophy col-5">
+            <div class="header"><h3>Design Philosophy</h3></div>
+            {{ sections.values|safe }}
+        </aside>
+        <aside class="liquids col-6">
+            <div class="header"><h4>Weekly Liquid Consumption Chart</h4></div>
+            <img src="{{ STATIC_URL }}images/weekly_liquid_chart.svg" alt="Weekly Liquid Chart" width="310" height="270" />
+        </aside>
+    </div>
+    <section class="content col-16 history">
+        <header><h2>My Story</h2></header>
+        <div class="story">
+            {{ sections.about|safe }}
+        </div>
+    </section>
+    <section class="skills col-11">
+        <header><h3>Skills</h3><span class="caption">(not all-inclusive)</span></header>
+        <img src="{{ STATIC_URL }}images/skills_chart.png" alt="Graph of my Most Prominent Skills" />
+    </section>
+    <aside class="col-5">
+        <div class="logo">
+            <div class="header"><h4>About My Logo</h4></div>
+            <img src="{{ STATIC_URL }}images/jay_zawrotny_logo.svg" alt="Jay Zawrotny's Logo" width="260" height="260" />
+            <div class="content">
+                {{ sections.logo|safe }}
+            </div>
+        </div>
+    </aside>
+    <aside class="col-16">
+        <div class="latest-tweet">
+            <p id="tweet"></p>
+        </div>
+        <script type="text/javascript" src="https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&amp;include_rts=true&amp;count=1&amp;callback=tweetCallback&amp;screen_name=jayzawrotny"></script>
+    </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% load thumbnail %}
+<section class="associate">
+    <header>
+        <div class="contact-photo"><img src="{% thumbnail associate.avatar 200x200 %}" alt="{{ associate.name }}" /></div>
+        <h2>{{ associate.name }}</h2>
+    </header>
+    <ul class="meta">
+        {% if associate.url %}
+        <li>
+            <span class="label">Website:</span> <a href="{{ associate.url }}">{{ associate.url }}</a>
+        </li>
+        {% endif %}
+        <li>
+            <span class="label">Specialty:</span> {{ associate.specialty }}
+        </li>
+    </ul>
+    <div class="content">
+        {{ associate.html|safe }}
+    </div>
+</section>

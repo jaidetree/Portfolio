@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Associates{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}/javascript/jquery.slidator.js"></script>
+{% endblock %}
+{% block page-title %}<h1>Associates</h1><h2>Friends, collaborators, and trusted companies for your consumption</h2>{% endblock %}
+{% block content %}
+<div class="slide-container group">
+    <section class="associates associates-safe col-16">
+        <ul>
+    {% for person in featured_people %}
+        <li class="person">
+            <a href="{% url associates.views.show person.slug %}"><img src="{% thumbnail person.avatar 150x150 crop=False %}" alt="{{ person.name }}'s Headshot" width="100" height="100" /></a>
+            <h2><a href="{% url associates.views.show person.slug %}">{{ person.name }}</a></h2>
+            <span class="specialty">{{ person.specialty }}</span>
+        </li>
+    {% endfor %}
+        </ul>
+    </section>
+    <div class="slide-box associate-view col-16">
+        <div class="slide-content">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        $('.associates-safe li a').slidator({
+            width: 580,
+            content: '.associates-safe',
+            slidebox: '.slide-box',
+            onload: function(settings){
+                var contentWidth = $(settings.content).outerWidth(), 
+                    ajaxWidth = $(settings.slidebox).outerWidth();
+
+                var margin = parseInt( $(settings.content).css('margin-left').replace('px' ) );
+                $(settings.container).width(contentWidth + ajaxWidth + ( margin * 8 ));
+                $(settings.slidebox).show();
+
+            }
+        });
+    });
+</script>
+{% endblock %}

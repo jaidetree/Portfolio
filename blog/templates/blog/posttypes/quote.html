@@ -1,0 +1,15 @@
+{% load thumbnail %}
+{% load blog_extras %}
+{% with quote=meta|get_quote %}
+{% if quote %}
+<aside class="post-quote">
+    <blockquote>
+        <p>{{ quote.content }}</p>
+        {% if quote.author %}
+        <div class="author">--{{ quote.author }}</div>
+        {% endif %}
+    </blockquote>
+</aside>
+{% endif %}
+{% endwith %}
+{{ content }}
