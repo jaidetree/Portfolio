@@ -1,0 +1,53 @@
+{% load markup %}
+{% load thumbnail %}
+<article class="project">
+    <header>
+        {% if ajax %} 
+        <h3 class="title">
+            <a href="{% url projects.views.show project.slug %}">{{ project.title }} <span>&#10095;</span></a>
+        </h3>
+        {% else %}
+        <h1 class="title">{{ project.title }}</h1>
+        {% endif %}
+    </header>
+    <aside class="project-info">
+        <ul>
+            {% if project.url %}
+            <li><span class="label">URL:</span> <a href="{{ project.url }}">{{ project.url }}</a></li>
+            {% endif %}
+            {% if project.date_launched %}
+            <li><span class="label">Created:</span> {{ project.date_launched|date:"F Y" }}</li>
+            {% endif %}
+            <li><span class="label">Type:</span> {{ project.category.title }}</li>
+            {% if ajax %}
+            <li><span class="label">Permalink:</span> <a href="{% url projects.views.show project.slug %}">http://jayzawrotny.com{% url projects.views.show project.slug %}</a></li>
+            {% endif %}
+        </ul>
+    </aside>
+    <section class="image">                                                    
+    {% if ajax %}
+        <a href="{% url projects.views.show project.slug %}"><img src="{% thumbnail project.image 620x465 crop='smart' %}" alt="{{ project.title }}"/></a>
+    {% else %}
+        <a href="{{ MEDIA_URL }}{{ project.image }}"><img src="{% thumbnail project.image 620x465 crop=False %}" alt="{{ project.title }}"/></a>
+    {% endif %}
+    </section>
+    <section class="content">
+        <header class="label">Project Description:</header>
+        <p>
+            {{ project.html|safe }}
+        </p>
+    </section>
+    {% if project.images.all %}
+    <section class="gallery">
+        <header class="label">Project Images:</header>
+        <ul class="post-gallery">
+            {% for image in project.images.all %}
+            <li><a href="{% thumbnail image.file 800x1020 crop=True %}"><img src="{% thumbnail image.file 150x150 crop='smart' %}" alt="Gallery Image #{{ forloop.counter }}" /></a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+    {% if ajax %}
+    <a href="{% url projects.views.show project.slug %}" class="button">Learn more about this Project</a>
+    {% endif %}
+</article>

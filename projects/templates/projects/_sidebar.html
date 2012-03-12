@@ -1,0 +1,25 @@
+{% extends "_sidebar.html" %}
+{% load sidebar %}
+{% load markup %}
+{% block sideboxes %}
+    {% sidebox 'Project Resources' %}
+        <ul class="resources">
+            {% for res in project.resources.all %}
+                <li><a href="{% url projects.views.resource res.slug %}">{{res.title}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endsidebox %}
+    {% sidebox 'Produced As' %}
+        <span class="produced">{{ project.identity }}</span>
+    {% endsidebox %}
+    {% if project.work %}
+    {% sidebox 'Work Involved' %}
+        {{ project.work|markdown }}
+    {% endsidebox %}
+    {% endif %}
+    {% if project.side_notes %}
+        {% sidebox 'Side Notes:' %}
+            {{ project.side_notes|markdown }}
+        {% endsidebox %}
+    {% endif %}
+{% endblock %}

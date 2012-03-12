@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}My Work | Jay Zawrotny{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}/javascript/jquery.slidator.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.jbox.js"></script>
+{% endblock %}
+{% block page-title %}
+<h1>Projects</h1>
+<h2>Jay Zawrotny's Websites, Designs, and Creations</h2>
+{% endblock %}
+{% block body_class %}project-body{% endblock %}
+{% block content %}
+<div class="slide-container group">
+    <div class="projects-index col-16">
+        <ul>
+            {% for project in projects  %}
+                {% ifchanged project.category.title %}
+                {% if not forloop.first %} 
+                    </ul>
+                </li>
+                {% endif %}
+                <li class="project-category projects">
+                <header><h2>{{ project.category.title }}</h2></header>
+                <ul>
+                {% endifchanged %}
+                    <li>
+                        <a href="{% url projects.views.show project.slug %}"><img src="{% thumbnail project.image 200x150 crop=False  %}" alt="{{ project.title }}" /></a>
+                    </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="slide-box project-view col-16">
+        <div class="slide-content">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        $('.project-category li a').slidator({
+            onload: function(settings){
+                var contentWidth = $(settings.content).outerWidth(), 
+                    ajaxWidth = $(settings.slidebox).outerWidth();
+
+                var margin = parseInt( $(settings.content).css('margin-left').replace('px' ) );
+
+                $(settings.container).width(contentWidth + ajaxWidth + ( margin * 8 ));
+                $(settings.slidebox).show();
+
+                $('.post-gallery').jBox({ 
+                    onload: 'getGalleryImage'
+                });
+
+            }
+        });
+    });
+</script>
+{% endblock %}
+

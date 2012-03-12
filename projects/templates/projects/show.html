@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load markup %}
+{% block title %}Project {{ project.title }} | Jay Zawrotny{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.jbox.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}javascript/jquery.slidator.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL}}javascript/project.js"></script>
+{% endblock %}
+{% block page-title %}
+    <h1>Projects</h1>
+    <h2><a href="{% url projects.views.index %}">Projects</a> &gt; {{ project.title }}</h2>
+{% endblock %}
+{% block content %}
+<div class="slide-container">
+    <div class="slide-main">
+        <div class="show col-11">
+            {% include 'projects/_project.html' with project=project %}
+        </div>
+        {% include "projects/_sidebar.html" %}
+    </div>
+    <div class="slide-box">
+        <div class="slide-content"></div>
+    </div>
+</div>
+{% endblock %}
