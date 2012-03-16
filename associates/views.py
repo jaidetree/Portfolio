@@ -26,6 +26,7 @@ def index(request):
     except:
         pass
 
+    template = "index_svg.html"
     return render(request, 'associates/' + template, data, context_instance=RequestContext(request))
 
 def show(request, name_slug):
